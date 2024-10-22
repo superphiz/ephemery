@@ -3,6 +3,8 @@ Guide to getting started with the Ethereum Ephemery Testnet quickly
 
 https://ephemery.dev is the central repository for all things Ephemery
 
+These notes draw heavily on documentation in [T-ess's guide based on geth and lodestar](https://github.com/ephemery-testnet/ephemery-scripts/blob/master/manual/setup-geth-lodestar.md).
+
 ## 0. Notes
 
 This guide will become outdated VERY quickly! It's meant to capture a moment in time of Ephemery development, and unless it has been updated recently will be mostly useless after a month.
@@ -22,12 +24,15 @@ Running an Ethereum validator requires two different pieces of software to work 
 
 ## 3. Execution Client
 
-For this demonstration I'm using T-ess's guide based on geth and lodestar](https://github.com/ephemery-testnet/ephemery-scripts/blob/master/manual/setup-geth-lodestar.md). Because of a deep desire to develop [client diversity](https://clientdiversity.org] I strongly suggest that people use a different execution client, but because Ephemery is still in development, I'm using what's available.
+Because of a deep desire to develop [client diversity](https://clientdiversity.org) I strongly suggest that people use a different execution client, but because Ephemery is still in development, I'm using what's available.
 
 ### Install dependencies
 
 ```
-sudo apt install golang-go yarn curl nodejs git default-jre make gcc
+sudo apt install golang-go curl nodejs git default-jre make gcc
+```
+```
+sudo npm install --global yarn
 ```
 
 ### Download the Ephemery tesntet configuration files
@@ -61,14 +66,53 @@ rm -rf ~/geth-linux-amd64-1.14.11-f3c696fa*
 ### Initialize Geth with Ephemery settings
 
 ```
+sudo mkdir /var/lib/geth
+```
+```
 cd ~
-geth init --datadir "~/datadir-geth" ~/testnet-all/genesis.json
+sudo geth init --datadir "/var/lib/geth" ~/testnet-all/genesis.json
+```
+### Create a system service
+
+```
+echo "[Unit]
+Description=Geth Ethereum Node
+After=network.target
+
+[Service]
+Type=simple
+User=geth
+ExecStart=/usr/lcoal/bin/geth --networkid 39438138 --syncmode=full --port 30303 --http --datadir \"/var/lib/geth\" --authrpc.jwtsecret=/tmp/jwtsecret --bootnodes enode://50a54ecbd2175497640bcf46a25bbe9bb4fae51d7cc2a29ef4947a7ee17496cf39a699b7fe6b703ed0feb9dbaae7e44fc3827fcb7435ca9ac6de4daa4d983b3d@137.74.203.240:30303
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target" | sudo tee /etc/systemd/system/geth.service
 ```
 
+### Enable and start the service
 
-
+```
+sudo systemctl enable geth.service
+sudo systemctl daemon-reload
+sudo systemctl start geth.service
+sudo journalctl -f -u geth.service
+```
+(Press "Ctrl + C" to stop watching the log. Type "journalctl -f -u geth" to see it again.
 
 ## 4. Consensus Client
+
+Lodestar is a powerful consensus client developed in TypeScript. I gladly encourage using Lodestar on a production validator!
+
+### Download and build Lodestar
+
+```
+cd ~
+git clone https://github.com/chainsafe/lodestar.git
+cd lodestar
+yarn
+yarn run build
+```
+
 
 ## 5. Setting up MetaMask
 
