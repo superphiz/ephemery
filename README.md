@@ -122,6 +122,9 @@ yarn run build
 
 ## 8. Importing the validator keys
 
+./lodestar validator import --importKeystores ../validator_keys --dataDir /home/phiz/datadir-lodestar --importKeystoresPassword ./password.txt
+
+
 ## 9. Making the deposit
 
 ## 10. Monitoring progress
