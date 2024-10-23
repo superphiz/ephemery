@@ -35,7 +35,7 @@ sudo apt install golang-go curl nodejs git default-jre make gcc
 sudo npm install --global yarn
 ```
 
-### Download the Ephemery tesntet configuration files
+### Download the Ephemery testnet configuration files
 
 Download the `testnet-all.tar.gz` file for the [latest release of the Ephemery testnet](https://github.com/ephemery-testnet/ephemery-genesis/releases) to this directory using `wget`. Then unzip inside this folder. Note that the link in the example is likely to be outdated.
 
