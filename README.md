@@ -289,5 +289,18 @@ Go to https://launchpad.ephemery.dev/
 
 ## 11. Monitoring progress
 
+### Easiest
+
+Follow the link from beaconchain.ephemery.dev after you do the deposit, and bookmark it
+
+### On  the command line
 ```journalctl -f``` 
 (CTRL C to exit, this won't stop your services)
+
+### On a beacon chain explorer
+
+Go to https://beaconchain.ephemery.dev/
+
+Look for the magnifying glass in the upper toolbar
+
+Enter your wallet address from metamask. (This will take a few hours to show up after the deposit)
