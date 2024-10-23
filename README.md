@@ -20,11 +20,11 @@ This demonstration is being done on an Ubuntu 24.04.1 (Noble Numbat) Desktop ins
 
 ## 2. The big picture
 
-Running an Ethereum validator requires two different pieces of software to work together, these are called the Execution client (historically called an "Eth1 client") and the Consensus client (the "Eth2 cleint). They work in concert, with the execution client managing transactions and the consensus client managing the chain. In order to have a validator running, we'll need both of these clients up and running, then we can deposit 32 [Ephemery]Ether to be a validator.
+Running an Ethereum validator requires three different pieces of software to work together, these are called the Execution client (historically called an "Eth1 client"), the Consensus client (the "Eth2 client"), and the validator client. They work in concert, with the execution client managing transactions and the consensus client managing the chain. In order to have a validator running, we'll need both of these clients up and running, then we can deposit 32 [Ephemery]Ether to be a validator.
 
 ## 3. Execution Client
 
-Because of a deep desire to develop [client diversity](https://clientdiversity.org) I strongly suggest that people use a different execution client, but because Ephemery is still in development, I'm using what's available.
+Because of a deep desire to develop [client diversity](https://clientdiversity.org) I strongly suggest that people use an execution client other than geth, but because Ephemery is still in development, I'm using what's available.
 
 ### Install dependencies
 
