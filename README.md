@@ -114,13 +114,17 @@ yarn run build
 ```
 
 
-## 5. Setting up MetaMask
+## 5. Set up MetaMask
 
-## 6. Getting Ephemery Ether
+## 6. Get Ephemery Ether
+
+https://ephemery-faucet.pk910.de/
 
 ## 7. Creating the validator keys and deposit data
 
-## 8. Importing the validator keys
+## 7. Set up the validator
+
+## 8. Import the validator keys
 
 ./lodestar validator import --importKeystores ../validator_keys --dataDir /home/phiz/datadir-lodestar --importKeystoresPassword ./password.txt
 
