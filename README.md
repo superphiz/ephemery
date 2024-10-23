@@ -81,8 +81,15 @@ After=network.target
 
 [Service]
 Type=simple
-User=geth
-ExecStart=/usr/lcoal/bin/geth --networkid 39438138 --syncmode=full --port 30303 --http --datadir \"/var/lib/geth\" --authrpc.jwtsecret=/tmp/jwtsecret --bootnodes enode://50a54ecbd2175497640bcf46a25bbe9bb4fae51d7cc2a29ef4947a7ee17496cf39a699b7fe6b703ed0feb9dbaae7e44fc3827fcb7435ca9ac6de4daa4d983b3d@137.74.203.240:30303
+User=geth \
+ExecStart=/usr/lcoal/bin/geth \
+--networkid 39438138 \
+--syncmode=full \
+--port 30303 \
+--http --datadir \"/var/lib/geth\" \
+--authrpc.jwtsecret=/tmp/jwtsecret \
+--bootnodes enode://50a54ecbd2175497640bcf46a25bbe9bb4fae51d7cc2a29ef4947a7ee17496cf39a699b7fe6b703ed0feb9dbaae7e44fc3827fcb7435ca9ac6de4daa4d983b3d@137.74.203.240:30303
+
 Restart=on-failure
 
 [Install]
