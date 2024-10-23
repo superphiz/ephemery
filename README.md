@@ -221,6 +221,11 @@ cd ~/lodestar
 sudo ./lodestar validator import --importKeystores ~/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys --dataDir /var/lib/lodestar 
 ```
 
+Fix a permission
+```
+sudo chown -R $(whoami):$(whoami) /var/lib/lodestar
+```
+
 ## 9. Create the validator service
 
 ```
@@ -248,10 +253,7 @@ Restart=on-failure
 WantedBy=multi-user.target" | sudo tee /etc/systemd/system/lodestar_validator.service
 ```
 
-Fix a permission
-```
-sudo chown -R $(whoami):$(whoami) /var/lib/lodestar
-```
+
 
 ### Enable and start the service
 
