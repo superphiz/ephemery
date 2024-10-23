@@ -178,7 +178,7 @@ Allow it to create a new seed phrase for you. Don't lose this! Because this is a
 
 Go to https://ephemery.dev and click the top center link that says "Add network to Metamask". Authorize this addition on metamask.
 
-![Add to Metamask](assets/metamask.png)
+![Add to Metamask](assets/add_to_metamask.png)
 
 ## 6. Get Ephemery Ether
 
