@@ -13,8 +13,7 @@ Everything in this guide is free for anyone to follow, including the software an
 
 ## 1. Test machine setup
 
-This demonstration is being done on an Ubuntu 22.04.5 (Jammy Jellyfish) Desktop installed on a VirtualBox Virtual machine.
-- This is an **OLD** version of Ubuntu! It's okay! I had some difficulty with dependencies on 24.04.1. If the system asks you to upgrade to a new version of Ubuntu DON'T do it.
+This demonstration is being done on an Ubuntu 24.04.1 (Noble Numbat) Desktop installed on a VirtualBox Virtual machine.
 - The Desktop version of Ubuntu isn't generally recommended for running a validator, but it won't hurt and I'm using it to make copy/pasting easier when I create the video.
 - I installed the VirtualBox Additions before starting this guide. It isn't necessary to do this, but you can.
 - In order to install VirtualBox Additions, I also installed some pre-requisites: ```sudo apt install gcc make perl```
