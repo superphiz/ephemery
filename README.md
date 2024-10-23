@@ -109,7 +109,7 @@ sudo systemctl enable geth.service
 sudo systemctl start geth.service
 sudo journalctl -f -u geth.service
 ```
-(Press "Ctrl + C" to stop watching the log. Type "journalctl -f -u geth" to see it again.
+(Press "Ctrl + C" to stop watching the log. Type "journalctl -f -u geth" to see it again.)
 
 ## 4. Consensus Client
 
@@ -168,7 +168,7 @@ sudo systemctl enable lodestar_beacon.service
 sudo systemctl start lodestar_beacon.service
 sudo journalctl -f -u lodestar_beacon.service
 ```
-(Press "Ctrl + C" to stop watching the log. Type "journalctl -f -u lodestar_beacon" to see it again.
+(Press "Ctrl + C" to stop watching the log. Type "journalctl -f -u lodestar_beacon" to see it again.)
 
 ## 5. Set up MetaMask
 
@@ -187,12 +187,86 @@ There are a few Ephemery faucets listed on https://ephemery.dev, but [this](http
 https://ephemery-faucet.pk910.de/
 
 ## 7. Creating the validator keys and deposit data
+```
+cd ~/
+wget https://github.com/eth-educators/ethstaker-deposit-cli/releases/download/v0.2.1/ethstaker_deposit-cli-66054f5-linux-amd64.tar.gz
+tar xvf ethstaker_deposit-cli-66054f5-linux-amd64.tar.gz
+cd ethstaker_deposit-cli-66054f5-linux-amd64/
+./deposit existing-mnemonic
+```
+
+1. Press "Enter" to select English.
+
+2. Enter the seed phrase you used when you set up metamask. (Use different seed phrases on mainnet, but we're aiming for simplicity here!)
+
+3. This is a new seed phrase, so you'll enter "0" here.
+
+4. Confirm the "0".
+
+5. How many validators do you want to run? (I suggest starting with 1)
+
+6. You must type the network name "ephemery".
+
+7. Enter a twelce character password, 123456789012 works.
+
+8. I suggest using your Metamask wallet address as your withdrawal address. (Note that if you're pasting into a terminal, CTRL + SHIFT + V works)
+
+9. Confirm the same withdrawal address.
+
 
 ## 8. Import the validator keys
 
-./lodestar validator import --importKeystores ../validator_keys --dataDir /home/phiz/datadir-lodestar --importKeystoresPassword ./password.txt
+```
+cd ~/lodestar
+sudo ./lodestar validator import --importKeystores ~/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys --dataDir /var/lib/lodestar 
+```
 
+## 9. Create the validator service
 
-## 9. Making the deposit
+```
+echo "[Unit]
+Description=Lodestar Ethereum Validator Client
+After=network.target
 
-## 10. Monitoring progress
+[Service]
+Type=simple
+User=$(whoami)
+WorkingDirectory=$HOME/lodestar
+ExecStart=$HOME/lodestar/lodestar validator \\
+    --network ephemery \\
+    --dataDir \"/var/lib/lodestar\" \\
+    --importKeystores \"$HOME/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys\" \\
+    --importKeystoresPassword \"$HOME/password.txt\" \\
+    --beaconNodes http://127.0.0.1:4000 \\
+    --paramsFile=\"$HOME/testnet-all/config.yaml\" \\
+    --graffiti=\"superphiz\" \\
+    --suggestedFeeRecipient=\"0xeea9f77fdf2ef71365bd10eafe684cddb7de7d1f\"
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target" | sudo tee /etc/systemd/system/lodestar_validator.service
+```
+
+Fix a permission
+```
+sudo chown -R $(whoami):$(whoami) /var/lib/lodestar
+```
+
+### Enable and start the service
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable lodestar_validator.service
+sudo systemctl start lodestar_validator.service
+sudo journalctl -f -u lodestar_validator.service
+```
+(Press "Ctrl + C" to stop watching the log. Type "journalctl -f -u lodestar_validator" to see it again.)
+
+## 10. Make the deposit
+
+Go to https://github.com/ephemery-testnet/ephemery-genesis
+
+## 11. Monitoring progress
+
+```journalctl -f``` (CTRL C to exit, this won't stop your services)
