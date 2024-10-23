@@ -269,8 +269,25 @@ sudo journalctl -f -u lodestar_validator.service
 
 ## 10. Make the deposit
 
-Go to https://github.com/ephemery-testnet/ephemery-genesis
+Make the deposit files super easy to find:
+```
+cp ~/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys/deposit_data-1729723067.json ~/
+cp ~/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys/deposit_data-1729723067.json ~/Desktop/
+```
+
+Go to https://launchpad.ephemery.dev/
+
+1. Click "I accept" and on a bunch of rainbow-colored buttons.
+
+2. When you get to "Upload Depost data"
+
+3. Select the depsit-data.json file that should be visible in your selection window, or found in ```~/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys/```
+
+4. Press "Continue"
+
+5. Metamask will open and ask you to confirm.
 
 ## 11. Monitoring progress
 
-```journalctl -f``` (CTRL C to exit, this won't stop your services)
+```journalctl -f``` 
+(CTRL C to exit, this won't stop your services)
