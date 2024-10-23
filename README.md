@@ -216,9 +216,11 @@ cd ethstaker_deposit-cli-66054f5-linux-amd64/
 
 ## 8. Import the validator keys
 
+
 ```
 cd ~/lodestar
-sudo ./lodestar validator import --importKeystores ~/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys --dataDir /var/lib/lodestar 
+echo "123456789012" > ~/password.txt
+sudo ./lodestar validator import --importKeystores ~/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys --importKeystoresPassword ~/password.txt --dataDir /var/lib/lodestar 
 ```
 
 Fix a permission
