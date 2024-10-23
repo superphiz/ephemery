@@ -15,7 +15,7 @@ Everything in this guide is free for anyone to follow, including the software an
 
 This demonstration is being done on an Ubuntu 22.04.5 (Jammy Jellyfish) Desktop installed on a VirtualBox Virtual machine.
 - This is an **OLD** version of Ubuntu! It's okay! I had some difficulty with dependencies on 24.04.1. If the system asks you to upgrade to a new version of Ubuntu DON'T do it.
-- The Desktop version isn't generally recommended for running a validator, but it won't hurt and I'm using it to make copy/pasting easier when I create the video.
+- The Desktop version of Ubuntu isn't generally recommended for running a validator, but it won't hurt and I'm using it to make copy/pasting easier when I create the video.
 - I installed the VirtualBox Additions before starting this guide. It isn't necessary to do this, but you can.
 - In order to install VirtualBox Additions, I also installed some pre-requisites: ```sudo apt install gcc make perl```
 
@@ -30,7 +30,7 @@ Because of a deep desire to develop [client diversity](https://clientdiversity.o
 ### Install dependencies
 
 ```
-sudo apt install golang-go curl git default-jre make gcc 
+sudo apt install golang-go curl git default-jre make gcc python3-distutils-extra python3-setuptools
 ```
 ```
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
@@ -86,7 +86,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=1000
+User=$(whoami)
 ExecStart=/usr/local/bin/geth \\
 --networkid 39438138 \\
 --syncmode=full \\
@@ -100,6 +100,8 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target" | sudo tee /etc/systemd/system/geth.service
 ```
+```
+sudo chown -R $(whoami):$(whoami) /var/lib/geth
 
 ### Enable and start the service
 
@@ -125,7 +127,7 @@ yarn
 yarn run build
 ```
 
-###Create a system service for Lodestar
+### Create a system service for Lodestar
 
 ```
 echo "[Unit]
