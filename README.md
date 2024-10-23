@@ -72,6 +72,7 @@ rm -rf ~/geth-linux-amd64-1.14.11-f3c696fa*
 
 ```
 sudo mkdir /var/lib/geth
+sudo chown -R $(whoami):$(whoami) /var/lib/geth
 ```
 ```
 cd ~
@@ -100,8 +101,6 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target" | sudo tee /etc/systemd/system/geth.service
 ```
-```
-sudo chown -R $(whoami):$(whoami) /var/lib/geth
 
 ### Enable and start the service
 
