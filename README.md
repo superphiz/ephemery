@@ -13,7 +13,8 @@ Everything in this guide is free for anyone to follow, including the software an
 
 ## 1. Test machine setup
 
-This demonstration is being done on an Ubuntu 24.04.1 (Noble Numbat) Desktop installed on a VirtualBox Virtual machine. 
+This demonstration is being done on an Ubuntu 22.04.5 (Jammy Jellyfish) Desktop installed on a VirtualBox Virtual machine.
+- This is an **OLD** version of Ubuntu! It's okay! I had some difficulty with dependencies on 24.04.1. If the system asks you to upgrade to a new version of Ubuntu DON'T do it.
 - The Desktop version isn't generally recommended for running a validator, but it won't hurt and I'm using it to make copy/pasting easier when I create the video.
 - I installed the VirtualBox Additions before starting this guide. It isn't necessary to do this, but you can.
 - In order to install VirtualBox Additions, I also installed some pre-requisites: ```sudo apt install gcc make perl```
@@ -29,7 +30,11 @@ Because of a deep desire to develop [client diversity](https://clientdiversity.o
 ### Install dependencies
 
 ```
-sudo apt install golang-go curl nodejs git default-jre make gcc
+sudo apt install golang-go curl git default-jre make gcc 
+```
+```
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
 ```
 ```
 sudo npm install --global yarn
@@ -72,7 +77,7 @@ sudo mkdir /var/lib/geth
 cd ~
 sudo geth init --datadir "/var/lib/geth" ~/testnet-all/genesis.json
 ```
-### Create a system service
+### Create a system service for geth
 
 ```
 echo "[Unit]
@@ -81,13 +86,13 @@ After=network.target
 
 [Service]
 Type=simple
-User=geth \
-ExecStart=/usr/lcoal/bin/geth \
---networkid 39438138 \
---syncmode=full \
---port 30303 \
---http --datadir \"/var/lib/geth\" \
---authrpc.jwtsecret=/tmp/jwtsecret \
+User=1000
+ExecStart=/usr/local/bin/geth \\
+--networkid 39438138 \\
+--syncmode=full \\
+--port 30303 \\
+--http --datadir \"/var/lib/geth\" \\
+--authrpc.jwtsecret=/tmp/jwtsecret \\
 --bootnodes enode://50a54ecbd2175497640bcf46a25bbe9bb4fae51d7cc2a29ef4947a7ee17496cf39a699b7fe6b703ed0feb9dbaae7e44fc3827fcb7435ca9ac6de4daa4d983b3d@137.74.203.240:30303
 
 Restart=on-failure
@@ -99,8 +104,8 @@ WantedBy=multi-user.target" | sudo tee /etc/systemd/system/geth.service
 ### Enable and start the service
 
 ```
-sudo systemctl enable geth.service
 sudo systemctl daemon-reload
+sudo systemctl enable geth.service
 sudo systemctl start geth.service
 sudo journalctl -f -u geth.service
 ```
@@ -120,16 +125,68 @@ yarn
 yarn run build
 ```
 
+###Create a system service for Lodestar
+
+```
+echo "[Unit]
+Description=Lodestar Ethereum Consensus Client
+After=network.target
+
+[Service]
+Type=simple
+User=$(whoami)
+WorkingDirectory=$HOME/lodestar
+ExecStart=$HOME/lodestar/lodestar beacon \\
+    --dataDir=\"$HOME/datadir-lodestar\" \\
+    --network ephemery \\
+    --paramsFile=\"$HOME/testnet-all/config.yaml\" \\
+    --genesisStateFile=\"$HOME/testnet-all/genesis.ssz\" \\
+    --checkpointSyncUrl=https://checkpointz.bordel.wtf \\
+    --eth1.depositContractDeployBlock=0 \\
+    --network.connectToDiscv5Bootnodes=true \\
+    --discv5=true \\
+    --eth1=true \\
+    --eth1.providerUrls=http://localhost:8545 \\
+    --execution.urls=http://localhost:8551 \\
+    --bootnodes=enr:-LK4QLV1n8wq7htt9LRYGPJUGaC2-N-2IwwgCVofozWB2wy0PEbH14k7CpPh_jTTUQSoTD44-0NUeZQNnfuY9QJ2qpAEh2F0dG5ldHOIAAAAAAAAABiEZXRoMpCAPZkNUAAQG___________gmlkgnY0gmlwhIlKy_CJc2VjcDI1NmsxoQMJg9vL7g3u33NAckB6T4F_LUS2UE4C6XmPiINl3sUx7IN0Y3CCI4yDdWRwgiOM \\
+    --jwt-secret=/tmp/jwtsecret \\
+    --rest=true \\
+    --rest.address=0.0.0.0 \\
+    --rest.port=4000
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target" | sudo tee /etc/systemd/system/lodestar_beacon.service
+
+```
+### Enable and start the service
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable lodestar_beacon.service
+sudo systemctl start lodestar_beacon.service
+sudo journalctl -f -u lodestar_beacon.service
+```
+(Press "Ctrl + C" to stop watching the log. Type "journalctl -f -u lodestar_beacon" to see it again.
 
 ## 5. Set up MetaMask
 
+Go to https://metamask.io and install metamask. 
+
+Allow it to create a new seed phrase for you. Don't lose this! Because this is a testnet there's no risk of losing value, but you'll need the seed phrase later.
+
+Go to https://ephemery.dev and click the top center link that says "Add network to Metamask". Authorize this addition on metamask.
+
+![Add to Metamask](assets/metamask.png)
+
 ## 6. Get Ephemery Ether
+
+There are a few Ephemery faucets listed on https://ephemery.dev, but [this](https://ephemery-faucet.pk910.de/) is my favorite. You'll only need to mine 32.2 Ephemery Ether to proceed. Paste your Ethereum wallet address from Metamask.
 
 https://ephemery-faucet.pk910.de/
 
 ## 7. Creating the validator keys and deposit data
-
-## 7. Set up the validator
 
 ## 8. Import the validator keys
 
