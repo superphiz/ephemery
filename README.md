@@ -47,7 +47,7 @@ Download the `testnet-all.tar.gz` file for the [latest release of the Ephemery t
 cd ~
 mkdir testnet-all
 cd testnet-all
-wget https://github.com/ephemery-testnet/ephemery-genesis/releases/download/ephemery-138/testnet-all.tar.gz #this is likely to be an outdated resource
+wget https://github.com/ephemery-testnet/ephemery-genesis/releases/download/ephemery-139/testnet-all.tar.gz #this is likely to be an outdated resource
 tar -xzf testnet-all.tar.gz
 ```
 
