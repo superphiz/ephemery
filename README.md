@@ -29,7 +29,7 @@ Because of a deep desire to develop [client diversity](https://clientdiversity.o
 ### Install dependencies
 
 ```
-sudo apt install golang-go curl git default-jre make gcc python3-distutils-extra python3-setuptools
+sudo apt update && sudo apt install -y golang-go curl git default-jre make gcc python3-distutils-extra python3-setuptools
 ```
 ```
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
@@ -71,11 +71,13 @@ rm -rf ~/geth-linux-amd64-1.14.11-f3c696fa*
 
 ```
 sudo mkdir /var/lib/geth
-sudo chown -R $(whoami):$(whoami) /var/lib/geth
 ```
 ```
 cd ~
 sudo geth init --datadir "/var/lib/geth" ~/testnet-all/genesis.json
+```
+```
+sudo chown -R $(whoami):$(whoami) /var/lib/geth
 ```
 ### Create a system service for geth
 
