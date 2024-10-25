@@ -1,3 +1,5 @@
+# NOTE: Geth isn't keeping peers, i think i need to update some enode data by [sourcing variables from nodevars_env.txt](https://github.com/ephemery-testnet/ephemery-resources). I plan to look at this in a few hours.
+
 # ephemery
 Guide to getting started with the Ethereum Ephemery Testnet quickly
 
