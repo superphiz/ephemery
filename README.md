@@ -1,5 +1,3 @@
-# NOTE: Geth isn't keeping peers, i think i need to update some enode data by [sourcing variables from nodevars_env.txt](https://github.com/ephemery-testnet/ephemery-resources). I plan to look at this in a few hours.
-
 # ephemery
 Guide to getting started with the Ethereum Ephemery Testnet quickly
 
@@ -92,7 +90,7 @@ After=network.target
 Type=simple
 User=$(whoami)
 ExecStart=/usr/local/bin/geth \\
---networkid 39438138 \\
+--networkid 39438139 \\
 --syncmode=full \\
 --port 30303 \\
 --http --datadir \"/var/lib/geth\" \\
