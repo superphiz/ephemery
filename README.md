@@ -165,8 +165,9 @@ WantedBy=multi-user.target" | sudo tee /etc/systemd/system/lodestar_beacon.servi
 ```
 ### Enable and start the service
 
-Fix a permission
+Create the directory
 ```
+sudo mkdir -p /var/lib/lodestar
 sudo chown -R $(whoami):$(whoami) /var/lib/lodestar
 ```
 ```
