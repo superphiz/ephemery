@@ -165,6 +165,10 @@ WantedBy=multi-user.target" | sudo tee /etc/systemd/system/lodestar_beacon.servi
 ```
 ### Enable and start the service
 
+Fix a permission
+```
+sudo chown -R $(whoami):$(whoami) /var/lib/lodestar
+```
 ```
 sudo systemctl daemon-reload
 sudo systemctl enable lodestar_beacon.service
