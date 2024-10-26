@@ -140,7 +140,7 @@ Type=simple
 User=$(whoami)
 WorkingDirectory=$HOME/lodestar
 ExecStart=$HOME/lodestar/lodestar beacon \\
-    --dataDir=\"$HOME/datadir-lodestar\" \\
+    --dataDir=\"/var/lib/lodestar\" \\
     --network ephemery \\
     --paramsFile=\"$HOME/testnet-all/config.yaml\" \\
     --genesisStateFile=\"$HOME/testnet-all/genesis.ssz\" \\
