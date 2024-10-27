@@ -49,6 +49,7 @@ mkdir testnet-all
 cd testnet-all
 wget https://github.com/ephemery-testnet/ephemery-genesis/releases/download/ephemery-139/testnet-all.tar.gz #this is likely to be an outdated resource
 tar -xzf testnet-all.tar.gz
+source ./nodevars_env.txt
 ```
 
 ### Generate a jwt token to allow Eth1 and Eth2 clients to communicate.
