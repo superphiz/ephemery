@@ -29,14 +29,7 @@ Because of a deep desire to develop [client diversity](https://clientdiversity.o
 ### Install dependencies
 
 ```
-sudo apt update && sudo apt install -y golang-go curl git default-jre make gcc python3-distutils-extra python3-setuptools
-```
-```
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
-```
-```
-sudo npm install --global yarn
+sudo apt update && sudo apt install -y golang-go curl git default-jre
 ```
 
 ### Download the Ephemery testnet configuration files
@@ -119,14 +112,14 @@ sudo journalctl -f -u geth.service
 
 Lodestar is a powerful consensus client developed in TypeScript. I gladly encourage using Lodestar on a production validator!
 
-### Download and build Lodestar
+### Download Lodestar binary
 
 ```
 cd ~
-git clone https://github.com/chainsafe/lodestar.git
-cd lodestar
-yarn
-yarn run build
+wget https://github.com/ChainSafe/lodestar/releases/download/v1.22.0/lodestar-v1.22.0-linux-amd64.tar.gz
+tar xvf lodestar-v1.22.0-linux-amd64.tar.gz
+sudo mv lodestar /usr/local/bin/
+rm -f ~/lodestar-v1.22.0-linux-amd64.tar.gz
 ```
 
 ### Create a system service for Lodestar
@@ -139,8 +132,7 @@ After=network.target
 [Service]
 Type=simple
 User=$(whoami)
-WorkingDirectory=$HOME/lodestar
-ExecStart=$HOME/lodestar/lodestar beacon \\
+ExecStart=/usr/local/bin/lodestar beacon \\
     --dataDir=\"/var/lib/lodestar\" \\
     --network ephemery \\
     --paramsFile=\"$HOME/testnet-all/config.yaml\" \\
@@ -216,25 +208,17 @@ cd ethstaker_deposit-cli-66054f5-linux-amd64/
 
 6. You must type the network name "ephemery".
 
-7. Enter a twelce character password, 123456789012 works.
+7. Enter a twelve character password, 123456789012 works.
 
 8. I suggest using your Metamask wallet address as your withdrawal address. (Note that if you're pasting into a terminal, CTRL + SHIFT + V works)
 
 9. Confirm the same withdrawal address.
 
 
-## 8. Import the validator keys
-
+## 8. Create keystores password file
 
 ```
-cd ~/lodestar
 echo "123456789012" > ~/password.txt
-sudo ./lodestar validator import --importKeystores ~/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys --importKeystoresPassword ~/password.txt --dataDir /var/lib/lodestar 
-```
-
-Fix a permission
-```
-sudo chown -R $(whoami):$(whoami) /var/lib/lodestar
 ```
 
 ## 9. Create the validator service
@@ -247,8 +231,7 @@ After=network.target
 [Service]
 Type=simple
 User=$(whoami)
-WorkingDirectory=$HOME/lodestar
-ExecStart=$HOME/lodestar/lodestar validator \\
+ExecStart=/usr/local/bin/lodestar validator \\
     --network ephemery \\
     --dataDir \"/var/lib/lodestar\" \\
     --importKeystores \"$HOME/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys\" \\
@@ -288,9 +271,9 @@ Go to https://launchpad.ephemery.dev/
 
 1. Click "I accept" and on a bunch of rainbow-colored buttons.
 
-2. When you get to "Upload Depost data"
+2. When you get to "Upload Deposit data"
 
-3. Select the depsit-data.json file that should be visible in your selection window, or found in ```~/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys/```
+3. Select the deposit-data.json file that should be visible in your selection window, or found in ```~/ethstaker_deposit-cli-66054f5-linux-amd64/validator_keys/```
 
 4. Press "Continue"
 
